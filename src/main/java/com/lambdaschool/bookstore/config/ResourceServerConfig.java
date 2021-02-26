@@ -52,6 +52,10 @@ public class ResourceServerConfig
                              "/webjars/**",
                              "/createnewuser")
                 .permitAll()
+                .antMatchers("/books/books", "/books/book/{id}")
+                .hasAnyRole("ADMIN", "USER", "DATA")
+                .antMatchers("/books/getuserinfo")
+                .hasAnyRole("ADMIN")
                 .antMatchers("/users/**",
                              "/useremails/**",
                              "/oauth/revoke-token",
