@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BookstoreApplicationTest.class)
@@ -115,35 +116,65 @@ public class BookServiceImplUnitTestNoDB
     @Test
     public void findAll()
     {
+        System.out.println(bookService.findAll());
+        assertEquals(5,bookService.findAll().size());
     }
 
     @Test
     public void findBookById()
     {
+        assertEquals("Flatterland", bookService.findBookById(1).getTitle());
     }
 
     @Test(expected = ResourceNotFoundException.class)
     public void notFindBookById()
     {
+        assertEquals("Flatterland", bookService.findBookById(100).getTitle());
     }
 
     @Test
     public void delete()
     {
+        bookService.delete(1);
+        assertEquals(4, bookService.findAll().size());
     }
 
     @Test
     public void save()
     {
+        String b6Title = "My Book";
+        Section b6sec = new Section("Travel");
+        Author a9 = new Author("No", "Body");
+        Book b6 = new Book(b6Title, "154632", 8, b6sec);
+
+        b6.getWrotes()
+            .add(new Wrote(a9,b6));
+
+        Book addBook = bookService.save(b6);
+        assertNotNull(addBook);
+        assertEquals(b6Title, addBook.getTitle());
     }
 
     @Test
     public void update()
     {
+        String b2Title = "The Book";
+        Section b2sec = new Section("Fiction");
+        Author a10 = new Author("Some", "One");
+
+        Book b2 = new Book(b2Title,"998744558", 15, b2sec);
+
+        b2.getWrotes()
+            .add(new Wrote(a10,b2));
+
+        Book addBook = bookService.save(b2);
+        assertNotNull(addBook);
+        assertEquals(b2Title, addBook.getTitle());
     }
 
     @Test
     public void deleteAll()
     {
+        bookService.deleteAll();assertEquals(0, bookService.findAll().size());
     }
 }

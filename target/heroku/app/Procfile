@@ -1,0 +1,1 @@
+web: java $JAVA_OPTS -jar C:\Users\justi\Documents\LambdaProjects\Sprint-Challenge--Java-Frameworks-java-bookstore\target/justinmavity-bookstore.jar
